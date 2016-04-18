@@ -1,0 +1,7 @@
+instrumentation:
+  root: src
+  excludes:
+    - "**/svg-icons/**"
+    - "**/*.spec.js"
+  extensions:
+    - .js
