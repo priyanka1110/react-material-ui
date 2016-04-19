@@ -8,3 +8,10 @@ body {
   margin: 0;
   padding: 0;
 }
+.memberDiv1, .memberDiv2{
+	width: 50%;
+	/*background-color: red;*/
+}
+.member{
+	display: flex;
+}
