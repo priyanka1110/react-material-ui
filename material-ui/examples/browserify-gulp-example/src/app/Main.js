@@ -2,7 +2,7 @@
  * In this file, we create a React component
  * which incorporates components providedby material-ui.
  */
-
+import Radium, { Style } from 'radium'
 import React from 'react';
 import {deepOrange500} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -24,20 +24,13 @@ import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 import {fullWhite} from 'material-ui/styles/colors';
 import {blue500, yellow600} from 'material-ui/styles/colors';
-
-
-import Radium, { Style } from 'radium'
-
-
-// import Title from 'react-title-component';
-// import MarkdownElement from '../../MarkdownElement';
-// import muiThemeable from 'material-ui/styles/muiThemeable';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import styleResizable from 'material-ui/utils/styleResizable';
-// import typography from 'material-ui/styles/typography';
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import themesText from './themes.md';
-// import ClearFix from 'material-ui/internal/ClearFix';
+import ClearFix from 'material-ui/internal/ClearFix';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import {GridList, GridTile} from 'material-ui/GridList';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Popover, PopoverAnimationVertical} from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 
 import {
   Checkbox,
@@ -69,9 +62,31 @@ import {
   TableRowColumn,
   Avatar,
   ActionAssignment,
-
+  SelectField,
+  TimePicker,
  } from 'material-ui';
 
+import {
+  Step,
+  Stepper,
+  StepLabel,
+  StepContent,
+} from 'material-ui/Stepper';
+
+
+const items = [
+  <MenuItem key={1} value={1} primaryText="Never" />,
+  <MenuItem key={2} value={2} primaryText="Every Night" />,
+  <MenuItem key={3} value={3} primaryText="Weeknights" />,
+  <MenuItem key={4} value={4} primaryText="Weekends" />,
+  <MenuItem key={5} value={5} primaryText="Weekly" />,
+];
+export default class SelectFieldExampleFloatingLabel extends React.Component {
+
+  // constructor(props) {
+  //   super(props);
+  //   // this.state = {value: null};
+  }
 
 const styles = {
   container: {
@@ -82,6 +97,7 @@ const styles = {
     // textAlign: 'center',
     paddingLeft: 20,
     paddingRight: 20,
+    marginTop:85,
   },
   h1:{
     textAlign: 'left',
@@ -102,12 +118,74 @@ const styles = {
   propToggleHeader: {
     margin: '20px auto 10px',
   },
-  '@media (min-width: 320px)': {
-    container: {
-      background: 'red'
-    }
-  }
+   paper: {
+    width: 500,
+    margin: 'auto',
+  },
+  header: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 20,
+  },
+  actionButton: {
+    marginRight: 8,
+  },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  gridList: {
+    width: 500,
+    height: 500,
+    overflowY: 'auto',
+    marginBottom: 24,
+  },
 };
+
+const tilesData = [
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Breakfast',
+    author: 'jill111',
+  },
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Tasty burger',
+    author: 'pashminu',
+  },
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Camera',
+    author: 'Danson67',
+  },
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Morning',
+    author: 'fancycrave1',
+  },
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Hats',
+    author: 'Hans',
+  },
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Honey',
+    author: 'fancycravel',
+  },
+  {
+    img: 'images/kerem-128.jpg',
+    title: 'Vegetables',
+    author: 'jill111',
+  },
+  {
+    img: 'images/grid-list/water-plant-821293_640.jpg',
+    title: 'Water plant',
+    author: 'BkrmadtyaKarki',
+  },
+];
+
 
 const tableData = [
   {
@@ -169,9 +247,12 @@ class Main extends React.Component {
     super(props, context);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
-
     this.state = {
       open: false,
+      value: null,
+
+      /* Table javascript */
+
       fixedHeader: true,
       fixedFooter: true,
       stripedRows: false,
@@ -209,7 +290,7 @@ class Main extends React.Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div style={styles.container}>
-          <AppBar
+          <AppBar className="appFixed"
             title={<span style={styles.title}>Accounts</span>}
             onLeftIconButtonTouchTap={this.handleTouchTap}
 
@@ -226,31 +307,79 @@ class Main extends React.Component {
               </IconMenu>
             }
           />
+           <Style
+          rules={{
+              mediaQueries: {
+                '(max-width: 600px)': {
+                  body: {
+                    background: 'gray'
+                  },
+                  '.sq':{
+                    background: 'red !important',
+                    width: '50% !important',
+                  },
+                },
+                '(max-width: 500px)': {
+                  body: {
+                    background: 'aqua'
+                  },
+                  '.member':{
+                    display:'block',
+                  },
+                  '.memberDiv1' :{
+                    width: '100%',
+                    background: 'green'
+                  },
+                  '.memberDiv2' :{
+                    width: '100%',
+                    background: 'red'
+                  },
+
+                  'i': {
+                    color:'red'
+                  },
+                  '.memberDiv1 div :first-child span':{
+                    background: 'yellow'
+                  },
+                  '.tabBg': {
+                    background: 'pink !important'
+                  },
+                  'p, h1': {
+                    color: 'white !important',
+                  }
+                }
+              }
+          }}
+        />
+
+    <FloatingActionButton mini={true}>
+      <ContentAdd />
+    </FloatingActionButton>
 
           <Drawer openSecondary={false} docked={false} width={240} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
 
             <MenuItem onTouchTap={this.handleClose} href="#member">
-              <FontIcon className="material-icons">home</FontIcon> Members
+              <i className="fa fa-users"></i> Members
             </MenuItem>
 
             <MenuItem onTouchTap={this.handleClose} href="#webhook">
-              <FontIcon className="material-icons">home</FontIcon> Webhooks
+              <i className="fa fa-globe" aria-hidden="true"></i> Webhooks
             </MenuItem>
 
             <MenuItem onTouchTap={this.handleClose} href="#tags">
-              <FontIcon className="material-icons">home</FontIcon> Tags, Events logs and Runs
+              <i className="fa fa-tags" aria-hidden="true"></i> Tags, Events logs and Runs
             </MenuItem>
 
             <MenuItem onTouchTap={this.handleClose} href="#analysis">
-              <FontIcon className="material-icons">home</FontIcon> Analysis
+              <i className="fa fa-line-chart" aria-hidden="true"></i> Analysis
             </MenuItem>
 
             <MenuItem onTouchTap={this.handleClose} href="#report">
-              <FontIcon className="material-icons">home</FontIcon> Reports
+              <i className="fa fa-file-text" aria-hidden="true"></i> Reports
             </MenuItem>
 
             <MenuItem onTouchTap={this.handleClose} href="#oraganization">
-              <FontIcon className="material-icons">work</FontIcon> Oraganization
+              <i className="fa fa-briefcase" aria-hidden="true"></i> Oraganization
             </MenuItem>
 
           </Drawer>
@@ -265,14 +394,14 @@ class Main extends React.Component {
                 <ListItem 
                   primaryText="Memmber1"  
                   secondaryText="member1@example.com" 
-                  leftAvatar={<Avatar src="images/kerem-128.jpg" />}
+                  leftAvatar={<Avatar className="fa fa-user" />}
                   rightIcon={<FlatButton label="Remove" primary={true} />} 
                 />
 
                 <ListItem 
                   primaryText="Memmber2"  
                   secondaryText="member2@example.com" 
-                  leftAvatar={<Avatar src="images/kerem-128.jpg" />}
+                  leftAvatar={<Avatar className="fa fa-ban fa-stack-2x text-danger" src="images/kerem-128.jpg" />}
                   rightIcon={<FlatButton label="Remove" primary={true} />} 
                 />
 
@@ -347,6 +476,12 @@ class Main extends React.Component {
               errorText="URL is required"
               floatingLabelText="Service Listener URL"
             />
+            <div style={styles.block}>
+              <Toggle
+                label="Active"
+                style={styles.toggle}
+              />
+            </div>
 
           <h1 style={styles.h1} id="tags">Tags, Events logs and Runs</h1>
              <ListItem
@@ -355,23 +490,16 @@ class Main extends React.Component {
                 initiallyOpen={false}
                 primaryTogglesNestedList={true}
                 nestedItems={[
-
                   <ListItem
-                    key={1}
-                    primaryText="Tags table"
-                    leftIcon={<ActionGrade />}
-                  />,
-                  <ListItem
-                    key={2}
-                    primaryText="Sent Mail"
+                    
+                    primaryText="Tag table"
                     leftIcon={<ContentSend />}
-                    disabled={true}
+                    disabled={false}
+                    initiallyOpen={true}
                     nestedItems={[
-                      
+
                        <Table
                         height={this.state.height}
-                        fixedHeader={this.state.fixedHeader}
-                        fixedFooter={this.state.fixedFooter}
                         selectable={this.state.selectable}
                         multiSelectable={this.state.multiSelectable}
                       >
@@ -380,11 +508,6 @@ class Main extends React.Component {
                           adjustForCheckbox={this.state.showCheckboxes}
                           enableSelectAll={this.state.enableSelectAll}
                         >
-                          <TableRow>
-                            <TableHeaderColumn colSpan="6" tooltip="Table Header" style={{textAlign: 'center'}}>
-                              Table Header
-                            </TableHeaderColumn>
-                          </TableRow>
                           <TableRow >
                             <TableHeaderColumn tooltip="Tag ID" style={{textAlign: 'center'}}>Tag ID</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Run Deatils" style={{textAlign: 'center'}}>Run Deatils</TableHeaderColumn>
@@ -424,13 +547,6 @@ class Main extends React.Component {
                             <TableHeaderColumn tooltip="Total alert" style={{textAlign: 'center'}}>Total alert</TableHeaderColumn>
                             <TableHeaderColumn tooltip="Total checkpoint" style={{textAlign: 'center'}}>Total checkpoint</TableHeaderColumn>
                           </TableRow>
-
-                          <TableRow>
-                            <TableRowColumn colSpan="6" style={{textAlign: 'center'}}>
-                              Table footer
-                            </TableRowColumn>
-                          </TableRow>
-
                         </TableFooter>
                       </Table>
                     ]}
@@ -439,6 +555,41 @@ class Main extends React.Component {
               />
 
           <h1 style={styles.h1} id="analysis">Analysis</h1>
+
+          <SelectField
+          value={this.state.value}
+          onChange={this.handleChange}
+          floatingLabelText="Floating Label Text"
+          >
+            {items}
+          </SelectField>
+
+          <SelectField
+            value={this.state.value}
+            onChange={this.handleChange}
+            floatingLabelText="Styled Floating Label Text"
+            floatingLabelStyle={{color: 'red'}}
+          >
+            {items}
+          </SelectField>
+
+           <TimePicker
+              hintText="12hr Format"
+            />
+            <TimePicker
+              format="24hr"
+              hintText="24hr Format"
+            />
+             <RaisedButton
+              onTouchTap={this.handleTouchTap}
+              label="Add to my calendar"
+            />
+            <Snackbar
+              open={this.state.open}
+              message="Event added to your calendar"
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
 
           <Table
           height={this.state.height}
@@ -457,6 +608,7 @@ class Main extends React.Component {
                 Table Header
               </TableHeaderColumn>
             </TableRow>
+
             <TableRow >
               <TableHeaderColumn tooltip="Tag ID" style={{textAlign: 'center'}}>Tag ID</TableHeaderColumn>
               <TableHeaderColumn tooltip="Run Deatils" style={{textAlign: 'center'}}>Run Deatils</TableHeaderColumn>
@@ -507,22 +659,104 @@ class Main extends React.Component {
         </Table>
 
           <h1 style={styles.h1} id="report">Reports</h1>
+           <div style={styles.root}>
+            <GridList
+              cellHeight={200}
+              style={styles.gridList}
+            >
+              <Subheader>December</Subheader>
+              {tilesData.map((tile) => (
+                <GridTile
+                  key={tile.img}
+                  title={tile.title}
+                  subtitle={<span>by <b>{tile.author}</b></span>}
+                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                >
+                  <img src={tile.img} />
+                </GridTile>
+              ))}
+            </GridList>
+          </div>
+          <RaisedButton
+          onTouchTap={this.handleTouchTap}
+          label="Click me"
+        />
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.handleRequestClose}
+  
+        >
+          <div style={styles.popover}>
+            <RaisedButton primary={true} label="Here is a button"/>
+          </div>
+        </Popover>
+          <h1 style={styles.h1} id="oraganization">Oraganization</h1>
 
-            <Tabs
+            <Tabs 
               value={this.state.value}
               onChange={this.handleChange}
             >
-              <Tab label="Tab A" value="a" >
+              <Tab label="Tab A" value="a" className="tabBg" >
                 <div>
                   <h2 style={styles.headline}>Controllable Tab A</h2>
-                  <p>
-                    Tabs are also controllable if you want to programmatically pass them their values.
-                    This allows for more functionality in Tabs such as not
-                    having any Tab selected or assigning them different values.
-                  </p>
+                  <div style={styles.block}>
+                    <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+                      <RadioButton
+                        value="light"
+                        label="Simple"
+                        style={styles.radioButton}
+                      />
+                      <RadioButton
+                        value="not_light"
+                        label="Selected by default"
+                        style={styles.radioButton}
+                      />
+                      <RadioButton
+                        value="ludicrous"
+                        label="Custom icon"
+                        checkedIcon={<ActionFavorite />}
+                        uncheckedIcon={<ActionFavoriteBorder />}
+                        style={styles.radioButton}
+                      />
+                    </RadioButtonGroup>
+                    <RadioButtonGroup name="shipName" defaultSelected="community">
+                      <RadioButton
+                        value="enterprise"
+                        label="Disabled unchecked"
+                        disabled={true}
+                        style={styles.radioButton}
+                      />
+                      <RadioButton
+                        value="community"
+                        label="Disabled checked"
+                        disabled={true}
+                        style={styles.radioButton}
+                      />
+                    </RadioButtonGroup>
+                    <RadioButtonGroup name="notRight" labelPosition="left" style={styles.block}>
+                      <RadioButton
+                        value="reverse"
+                        label="Label on the left"
+                        style={styles.radioButton}
+                      />
+                    </RadioButtonGroup>
+                  </div>
                 </div>
+                  <Paper zDepth={2}>
+                    <TextField hintText="First name"  underlineShow={false} />
+                    <Divider />
+                    <TextField hintText="Middle name"  underlineShow={false} />
+                    <Divider />
+                    <TextField hintText="Last name"  underlineShow={false} />
+                    <Divider />
+                    <TextField hintText="Email address"  underlineShow={false} />
+                    <Divider />
+                  </Paper>
               </Tab>
-              <Tab label="Tab B" value="b">
+              <Tab label="Tab B" value="b" className="tabBg">
                 <div>
                   <h2 style={styles.headline}>Controllable Tab B</h2>
                    <div style={styles.block}>

@@ -15,3 +15,11 @@ body {
 .member{
 	display: flex;
 }
+
+.appFixed{
+	position: fixed !important;
+  top: 0;
+}
+.tabBg{
+	background-color: #006064 !important;
+}
